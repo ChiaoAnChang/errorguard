@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ErrorGuard</title>
+
+    <!-- Office JavaScript API -->
+    <script type="text/javascript" src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script>
+
+    <!-- For more information on Fluent UI, visit https://developer.microsoft.com/fluentui#/. -->
+    <link rel="stylesheet" href="https://res-1.cdn.office.net/files/fabric-cdn-prod_20230815.002/office-ui-fabric-core/11.1.0/css/fabric.min.css"/>
+
+    <link href="taskpane.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body class="ms-font-m ms-Fabric">
+    <header class="eg-header">
+        <img width="28" height="28" src="../../assets/icon-32.png" alt="ErrorGuard" />
+        <h1 class="ms-font-l">ErrorGuard</h1>
+    </header>
+
+    <section id="sideload-msg" class="eg-sideload-msg">
+        <p>Please <a target="_blank" href="https://learn.microsoft.com/office/dev/add-ins/testing/test-debug-office-add-ins#sideload-an-office-add-in-for-testing">sideload</a> this add-in in Excel to get started.</p>
+    </section>
+
+    <main id="app-body" class="eg-app-body" style="display: none;">
+        <section class="eg-status" id="status-bar">
+            <span id="status-text">Checking…</span>
+            <button id="recheck-button" class="ms-Button ms-Button--icon" title="Re-check now">↻</button>
+        </section>
+
+        <section class="eg-rules">
+            <button id="rules-toggle" class="eg-rules-toggle" aria-expanded="false">Rules ▾</button>
+            <div id="rules-panel" class="eg-rules-panel" style="display: none;">
+                <label><input type="checkbox" id="rule-duplicates" checked /> Duplicate rows (full-row exact match)</label>
+                <label><input type="checkbox" id="rule-format" checked /> Format inconsistencies</label>
+                <label><input type="checkbox" id="rule-outlier" checked /> Out-of-range / outlier values</label>
+                <p class="eg-rules-hint">Per-column overrides (custom min/max, allow-lists) are set programmatically for now — see README.md.</p>
+            </div>
+        </section>
+
+        <ul id="flag-list" class="eg-flag-list"></ul>
+        <p id="empty-state" class="eg-empty-state" style="display: none;">No issues found. ErrorGuard is watching this sheet.</p>
+    </main>
+</body>
+
+</html>
