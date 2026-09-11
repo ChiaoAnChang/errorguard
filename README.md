@@ -107,6 +107,12 @@ Once the rule engine here is solid and has real sideload mileage, a natural v1.1
 
 **v1: GitHub only**, open-source under Apache-2.0, sideload as described above — no app-store step, no paid infrastructure. Investigating a Microsoft AppSource/Partner Center listing is a possible later step (Partner Center's enrollment language suggests it may be oriented toward registered businesses rather than individuals — this needs checking directly with Microsoft before assuming it's available solo); not a blocker for v1.
 
+### Production hosting (GitHub Pages)
+
+Office Add-ins must be served over HTTPS even for sideloaded distribution, so the manifest's production build points at a GitHub Pages project site rather than `localhost`. [`.github/workflows/deploy-pages.yml`](.github/workflows/deploy-pages.yml) builds and deploys `dist/` on every push to `main`; `webpack.config.js`'s `urlProd` (`https://chiaoanchang.github.io/errorguard/`) is both the manifest's production source location and the build's asset `publicPath` (a GitHub Pages *project* site is served under `/errorguard/`, not domain root, so every asset URL needs that prefix or the browser 404s looking for them at the root).
+
+One-time setup this repo still needs before that workflow can actually publish: **Settings → Pages → Source: “GitHub Actions”** (the workflow's `actions/deploy-pages` step will fail until Pages is enabled this way). The repo-root `manifest.xml` always points at `localhost` and is what you sideload locally per [Install / sideload](#install--sideload) above; a production manifest pointing at the Pages URL is generated at `dist/manifest.xml` by `npm run build`, for anyone who wants to sideload the hosted version instead of running a local dev server.
+
 ## License
 
 Apache-2.0. See [LICENSE](LICENSE).

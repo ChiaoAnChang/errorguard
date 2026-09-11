@@ -5,7 +5,10 @@ const CopyWebpackPlugin = require("copy-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 const urlDev = "https://localhost:3000/";
-const urlProd = "https://www.contoso.com/"; // CHANGE THIS TO YOUR PRODUCTION DEPLOYMENT LOCATION
+// GitHub Pages project site (see .github/workflows/deploy-pages.yml) — a
+// project page is served under /<repo>/, not domain root, so this doubles
+// as the production asset publicPath below.
+const urlProd = "https://chiaoanchang.github.io/errorguard/";
 
 async function getHttpsOptions() {
   const httpsOptions = await devCerts.getHttpsServerOptions();
@@ -23,6 +26,11 @@ module.exports = async (env, options) => {
     },
     output: {
       clean: true,
+      // Must match where the built files actually get served from: root
+      // during local dev, the GitHub Pages project-site subpath in
+      // production — otherwise the browser requests taskpane.js etc. from
+      // the domain root and 404s.
+      publicPath: dev ? "/" : urlProd,
     },
     resolve: {
       extensions: [".ts", ".html", ".js"],
